@@ -69,14 +69,14 @@ independent packet arrivals  -->  [ FIFO DropTail queue, K waiting packets ]
 
 | Parameter | Values |
 |---|---|
-| Waiting buffer capacity K (packets) | 5, 20, 100, 300 |
-| Offered rate lambda (packets/s) | 50, 80, 100, 120, 150 |
+| Waiting buffer capacity K (packets) | 4, 20, 80, 150, 300 |
+| Offered rate lambda (packets/s) | 40, 60, 80, 100, 120, 150 |
 | Service rate mu (packets/s) | 100 (fixed) |
 | Offered load rho = lambda/mu | 0.5, 0.8, 1.0, 1.2, 1.5 |
 | Arrival profiles | poisson, bursty |
 | Seeds per condition | 1 through 10 |
 | Measurements after warmup | 120 seconds |
-| Total independent runs | 4 × 5 × 2 × 10 = **400** |
+| Total independent runs | 5 × 6 × 2 × 10 = **600** |
 
 For fairness, each profile/load/seed combination uses exactly the **same generated timestamps** when comparing buffer capacities, so observed variation across capacities is not caused by different input traffic sequences. Error bars in plots are **sample standard deviation across seeds**, not confidence intervals.
 
@@ -89,5 +89,3 @@ For fairness, each profile/load/seed combination uses exactly the **same generat
 - **P95 queue waiting delay (ms)** = 95th percentile of waiting delays of packets completed during measurement × 1000.
 - **Mean queue length (packets)** = time integral of waiting packets in buffer / measurement seconds.
 - **Mean system delay (ms)** = average of (completion − arrival) for packets completed during measurement × 1000.
-
-**Boundary caveat:** offered arrivals/drops are counted by *arrival* time, while departures/delays are counted by *completion* time, and warmup packets can complete after warmup. These are window-based rates, not a closed packet cohort. Do not equate `arrivals = drops + departures` within the measurement window. `max_queue_packets` includes warmup, while `mean_queue_packets` covers the measurement window only.
