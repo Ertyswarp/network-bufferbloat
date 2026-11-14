@@ -59,7 +59,7 @@ def build_results(output: Path, quick: bool = False) -> tuple[list[dict], list[d
     for profile, load in (("poisson", 1.2), ("bursty", 0.8)):
         cfg = replace(base, arrival_rate=100 * load, traffic=profile, seed=7)
         arrivals = arrivals_for(cfg)
-        for k in (5, 100, 300):
+        for k in (4, 80, 300):
             _, samples = simulate(replace(cfg, capacity=k), arrivals, trace=True)
             for sample in samples:
                 trace_rows.append({"traffic": profile, "offered_load": load, "capacity": k, **sample})
@@ -81,7 +81,7 @@ def plot_results(output: Path, summary: list[dict]) -> None:
             ("utilization_pct", "Link utilization (%)", "utilization"),
         ):
             fig, ax = plt.subplots(figsize=(7.5, 4.5))
-            for load in (0.5, 0.8, 1.0, 1.2, 1.5):
+            for load in (0.4, 0.6, 0.8, 1.0, 1.2, 1.5):
                 rows = [r for r in summary if r["traffic"] == profile and r["offered_load"] == load]
                 ax.errorbar([r["capacity"] for r in rows], [r[metric + "_mean"] for r in rows],
                             yerr=[r[metric + "_sd"] for r in rows], marker="o", capsize=3,
@@ -98,7 +98,7 @@ def plot_results(output: Path, summary: list[dict]) -> None:
         traces = list(csv.DictReader(f))
     for profile, load in (("poisson", 1.2), ("bursty", 0.8)):
         fig, ax = plt.subplots(figsize=(8, 4.5))
-        for k in (5, 100, 300):
+        for k in (4, 80, 300):
             rows = [r for r in traces if r["traffic"] == profile and float(r["offered_load"]) == load and int(r["capacity"]) == k]
             ax.plot([float(r["time_s"]) for r in rows], [int(r["queue_packets"]) for r in rows], label=f"K={k}")
         ax.set(xlabel="Time after warmup (s)", ylabel="Waiting packets in buffer",
