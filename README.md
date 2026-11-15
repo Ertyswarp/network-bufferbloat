@@ -72,7 +72,7 @@ independent packet arrivals  -->  [ FIFO DropTail queue, K waiting packets ]
 | Waiting buffer capacity K (packets) | 4, 20, 80, 150, 300 |
 | Offered rate lambda (packets/s) | 40, 60, 80, 100, 120, 150 |
 | Service rate mu (packets/s) | 100 (fixed) |
-| Offered load rho = lambda/mu | 0.5, 0.8, 1.0, 1.2, 1.5 |
+| Offered load rho = lambda/mu | 0.4, 0.6, 0.8, 1.0, 1.2, 1.5 |
 | Arrival profiles | poisson, bursty |
 | Seeds per condition | 1 through 10 |
 | Measurements after warmup | 120 seconds |
